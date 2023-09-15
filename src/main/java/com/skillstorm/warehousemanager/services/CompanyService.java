@@ -16,8 +16,8 @@ public class CompanyService {
         this.companyRepository = companyRepository;
     }
 
-    public Company createCompany(String companyName) {
-        Company company = new Company(companyName);
+    public Company createCompany(String companyName, String companyDescription) {
+        Company company = new Company(companyName, companyDescription);
         return companyRepository.save(company);
     }
     public List<Company> getAllCompanies() {
@@ -38,8 +38,8 @@ public class CompanyService {
         }
     }
 
-    public void deleteCompany(Long companyID) {
-        companyRepository.deleteById(companyID);
+    public void deleteCompany(String companyName) {
+        companyRepository.deleteByCompanyName(companyName);
     }
     // Other business logic and operations
 }

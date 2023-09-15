@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
+@CrossOrigin(origins= "http://localhost:5173", maxAge = 4800)
 @RestController
 @RequestMapping("/api/companies")
 public class CompanyController {
@@ -18,11 +19,11 @@ public class CompanyController {
     public CompanyController(CompanyService companyService) {
         this.companyService = companyService;
     }
-
     @PostMapping
     public ResponseEntity<Company> createCompany(@RequestBody Map<String, String> requestBody) {
         String companyName = requestBody.get("companyName");
-        Company company = companyService.createCompany(companyName);
+        String companyDescription = requestBody.get("companyDescription");
+        Company company = companyService.createCompany(companyName, companyDescription);
         return new ResponseEntity<>(company, HttpStatus.CREATED);
     }
 
@@ -58,9 +59,9 @@ public class CompanyController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @DeleteMapping("/{companyId}")
-    public ResponseEntity<Void> deleteCompany(@PathVariable Long companyId) {
-        companyService.deleteCompany(companyId);
+    @DeleteMapping("/{companyName}")
+    public ResponseEntity<Void> deleteCompany(@PathVariable String companyName) {
+        companyService.deleteCompany(companyName);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

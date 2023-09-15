@@ -18,14 +18,18 @@ public class Company {
     @Column(name = "`companyName`", nullable = false)
     private String companyName;
 
+    @Setter
+    @Column(name = "`companyDescription`")
+    private String companyDescription;
     // Constructors, getters, and setters
 
     public Company() {
         // Default constructor
     }
 
-    public Company(String companyName) {
+    public Company(String companyName, String companyDescription) {
         this.companyName = companyName;
+        this.companyDescription = companyDescription;
     }
 
     @Override
@@ -33,6 +37,7 @@ public class Company {
         return "Company{" +
                 "companyID=" + companyID +
                 ", companyName='" + companyName + '\'' +
+                ", companyDescription='" + companyDescription + '\'' +
                 '}';
     }
 }
