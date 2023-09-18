@@ -12,8 +12,8 @@ public class Company {
     @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "`companyID`")
-    private Long companyID;
+    @Column(name = "company_id")
+    private Long company_id;
     @Setter
     @Column(name = "`companyName`", nullable = false)
     private String companyName;
@@ -35,7 +35,7 @@ public class Company {
     @Override
     public String toString() {
         return "Company{" +
-                "companyID=" + companyID +
+                "companyID=" + company_id +
                 ", companyName='" + companyName + '\'' +
                 ", companyDescription='" + companyDescription + '\'' +
                 '}';
