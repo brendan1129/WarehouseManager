@@ -14,7 +14,7 @@ public class Warehouse {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "warehouse_id")
-    private Integer warehouse_id;
+    private Long warehouse_id;
 
     @Setter
     @Column(name = "`warehouseName`", nullable = false)
@@ -22,7 +22,7 @@ public class Warehouse {
 
     @Setter
     @Column(name = "company_id", nullable = false)
-    private Integer company_id;
+    private Long company_id;
 
     @Setter
     @Column(name = "`maxCapacity`", nullable = false)
@@ -34,7 +34,7 @@ public class Warehouse {
         // Default constructor
     }
 
-    public Warehouse(String warehouseName, Integer company_id, Integer maxCapacity) {
+    public Warehouse(String warehouseName, Long company_id, Integer maxCapacity) {
         this.warehouseName = warehouseName;
         this.company_id = company_id;
         this.maxCapacity = maxCapacity;

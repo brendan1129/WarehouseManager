@@ -19,6 +19,7 @@ public class WarehouseService {
     }
     // Create a new warehouse
     public Warehouse createWarehouse(Warehouse warehouse) {
+
         return warehouseRepository.save(warehouse);
     }
 
@@ -28,12 +29,15 @@ public class WarehouseService {
     }
 
     // Read a warehouse by ID
-    public Optional<Warehouse> getWarehouseById(Integer warehouseId) {
+    public Optional<Warehouse> getWarehouseById(Long warehouseId) {
         return warehouseRepository.findById(warehouseId);
     }
 
+    public Warehouse getWarehouseByWarehouseName(String warehouseName) {
+        return warehouseRepository.findByWarehouseName(warehouseName);
+    }
     // Update a warehouse
-    public Warehouse updateWarehouse(Integer warehouseId, Warehouse updatedWarehouse) {
+    public Warehouse updateWarehouse(Long warehouseId, Warehouse updatedWarehouse) {
         Optional<Warehouse> existingWarehouse = warehouseRepository.findById(warehouseId);
         if (existingWarehouse.isPresent()) {
             updatedWarehouse.setWarehouse_id(warehouseId);
@@ -44,10 +48,15 @@ public class WarehouseService {
     }
 
     // Delete a warehouse
-    public void deleteWarehouse(Integer warehouseId) {
+    public void deleteWarehouse(Long warehouseId) {
         warehouseRepository.deleteById(warehouseId);
     }
     public List<Warehouse> findWarehousesByCompanyName(String companyName) {
         return warehouseRepository.findByCompanyName(companyName);
     }
+
+    public List<Warehouse> findWarehousesByCompanyID(Long company_id) {
+        return warehouseRepository.findWarehouseBy(company_id);
+    }
+
 }

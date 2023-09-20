@@ -19,6 +19,7 @@ public class CompanyController {
     public CompanyController(CompanyService companyService) {
         this.companyService = companyService;
     }
+
     @PostMapping
     public ResponseEntity<Company> createCompany(@RequestBody Map<String, String> requestBody) {
         String companyName = requestBody.get("companyName");
@@ -59,9 +60,10 @@ public class CompanyController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @DeleteMapping("/{companyName}")
-    public ResponseEntity<Void> deleteCompany(@PathVariable String companyName) {
-        companyService.deleteCompany(companyName);
+
+    @DeleteMapping("/{companyId}")
+    public ResponseEntity<Void> deleteCompany(@PathVariable Long companyId) {
+        companyService.deleteCompany(companyId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

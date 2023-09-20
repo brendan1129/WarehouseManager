@@ -3,6 +3,8 @@ package com.skillstorm.warehousemanager.controllers;
 import com.skillstorm.warehousemanager.models.Warehouse;
 import com.skillstorm.warehousemanager.services.WarehouseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,6 +26,10 @@ public class WarehouseController {
     public List<Warehouse> findWarehousesByCompanyName(@RequestParam String companyName) {
         return warehouseService.findWarehousesByCompanyName(companyName);
     }
+    @GetMapping("/findByCompanyID")
+    public List<Warehouse> findWarehousesByCompanyID(@RequestParam Long company_id) {
+        return warehouseService.findWarehousesByCompanyID(company_id);
+    }
     // Create a new warehouse
     @PostMapping("/create")
     public Warehouse createWarehouse(@RequestBody Warehouse warehouse) {
@@ -38,19 +44,20 @@ public class WarehouseController {
 
     // Read a warehouse by ID
     @GetMapping("/{warehouseId}")
-    public Optional<Warehouse> getWarehouseById(@PathVariable Integer warehouseId) {
+    public Optional<Warehouse> getWarehouseById(@PathVariable Long warehouseId) {
         return warehouseService.getWarehouseById(warehouseId);
     }
 
     // Update a warehouse by ID
     @PutMapping("/{warehouseId}/update")
-    public Warehouse updateWarehouse(@PathVariable Integer warehouseId, @RequestBody Warehouse updatedWarehouse) {
+    public Warehouse updateWarehouse(@PathVariable Long warehouseId, @RequestBody Warehouse updatedWarehouse) {
         return warehouseService.updateWarehouse(warehouseId, updatedWarehouse);
     }
 
     // Delete a warehouse by ID
-    @DeleteMapping("/{warehouseId}/delete")
-    public void deleteWarehouse(@PathVariable Integer warehouseId) {
+    @DeleteMapping("/{warehouseId}")
+    public ResponseEntity<Void> deleteWarehouse(@PathVariable Long warehouseId) {
         warehouseService.deleteWarehouse(warehouseId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

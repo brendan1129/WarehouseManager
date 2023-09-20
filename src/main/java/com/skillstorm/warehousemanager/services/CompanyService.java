@@ -17,6 +17,10 @@ public class CompanyService {
     }
 
     public Company createCompany(String companyName, String companyDescription) {
+        Company exisitingCompany = companyRepository.findByCompanyName(companyName);
+        if(exisitingCompany != null) {
+            throw new IllegalArgumentException("Company with the same name already exists");
+        }
         Company company = new Company(companyName, companyDescription);
         return companyRepository.save(company);
     }
@@ -38,8 +42,6 @@ public class CompanyService {
         }
     }
 
-    public void deleteCompany(String companyName) {
-        companyRepository.deleteByCompanyName(companyName);
-    }
     // Other business logic and operations
+    public void deleteCompany(Long companyID) { companyRepository.deleteById(companyID); }
 }
