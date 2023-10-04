@@ -1,5 +1,6 @@
 package com.skillstorm.warehousemanager.controllers;
 
+import com.skillstorm.warehousemanager.DTOs.SaleRequestDTO;
 import com.skillstorm.warehousemanager.models.Warehouse;
 import com.skillstorm.warehousemanager.services.WarehouseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins= "http://localhost:5173", maxAge = 4800)
+@CrossOrigin(origins= {"http://localhost:5173"}, maxAge = 4800)
 @RestController
 @RequestMapping("api/warehouses")
 public class WarehouseController {
@@ -35,7 +36,11 @@ public class WarehouseController {
     public Warehouse createWarehouse(@RequestBody Warehouse warehouse) {
         return warehouseService.createWarehouse(warehouse);
     }
-
+    @PutMapping("/sell-item")
+    public ResponseEntity<String> sellItemAndUpdateRevenue(@RequestBody SaleRequestDTO saleRequest) {
+        warehouseService.sellItemAndUpdateRevenue(saleRequest.getItemPrice(), saleRequest.getWarehouseId());
+        return ResponseEntity.ok("Item sold and revenue updated.");
+    }
     // Read all warehouses
     @GetMapping("/getAll")
     public List<Warehouse> getAllWarehouses() {

@@ -2,9 +2,11 @@ package com.skillstorm.warehousemanager.services;
 
 import com.skillstorm.warehousemanager.models.Warehouse;
 import com.skillstorm.warehousemanager.repositories.WarehouseRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,10 +34,6 @@ public class WarehouseService {
     public Optional<Warehouse> getWarehouseById(Long warehouseId) {
         return warehouseRepository.findById(warehouseId);
     }
-
-    public Warehouse getWarehouseByWarehouseName(String warehouseName) {
-        return warehouseRepository.findByWarehouseName(warehouseName);
-    }
     // Update a warehouse
     public Warehouse updateWarehouse(Long warehouseId, Warehouse updatedWarehouse) {
         Optional<Warehouse> existingWarehouse = warehouseRepository.findById(warehouseId);
@@ -58,5 +56,16 @@ public class WarehouseService {
     public List<Warehouse> findWarehousesByCompanyID(Long company_id) {
         return warehouseRepository.findWarehouseBy(company_id);
     }
+    public void sellItemAndUpdateRevenue(BigDecimal itemPrice, Long warehouseId) {
+        // Fetch the warehouse by ID
+        Warehouse warehouse = warehouseRepository.findById(warehouseId)
+                .orElseThrow(() -> new EntityNotFoundException("Warehouse not found"));
 
+        // Update the revenue
+        BigDecimal updatedRevenue = warehouse.getRevenue().add(itemPrice);
+        warehouse.setRevenue(updatedRevenue);
+
+        // Save the updated warehouse
+        warehouseRepository.save(warehouse);
+    }
 }

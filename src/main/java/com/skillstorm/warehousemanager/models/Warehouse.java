@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @Entity
 @Getter
 @Table(name = "warehouse", schema = "public")
@@ -28,16 +30,20 @@ public class Warehouse {
     @Column(name = "`maxCapacity`", nullable = false)
     private Integer maxCapacity;
 
+    @Setter
+    @Column(name = "revenue", nullable = false)
+    private BigDecimal revenue;
     // Constructors, getters, and setters
 
     public Warehouse() {
         // Default constructor
     }
 
-    public Warehouse(String warehouseName, Long company_id, Integer maxCapacity) {
+    public Warehouse(String warehouseName, Long company_id, Integer maxCapacity, BigDecimal revenue) {
         this.warehouseName = warehouseName;
         this.company_id = company_id;
         this.maxCapacity = maxCapacity;
+        this.revenue = revenue;
     }
 
     // toString() method
@@ -49,6 +55,7 @@ public class Warehouse {
                 ", warehouseName='" + warehouseName + '\'' +
                 ", company_id=" + company_id +
                 ", maxCapacity=" + maxCapacity +
+                ", revenue=" + revenue +
                 '}';
     }
 }

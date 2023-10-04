@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/warehouse-items")
-@CrossOrigin(origins= "http://localhost:5173", maxAge = 4800)
+@CrossOrigin(origins= {"http://localhost:5173"}, maxAge = 4800)
 public class WarehouseItemController {
 
     private final WarehouseItemService warehouseItemService;
@@ -35,7 +35,7 @@ public class WarehouseItemController {
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<WarehouseItem> addItem(@RequestBody WarehouseItem item) {
         WarehouseItem newItem = warehouseItemService.addItem(item);
         return new ResponseEntity<>(newItem, HttpStatus.CREATED);

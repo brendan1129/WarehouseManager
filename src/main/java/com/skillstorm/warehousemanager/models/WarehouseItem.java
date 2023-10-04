@@ -1,14 +1,17 @@
 package com.skillstorm.warehousemanager.models;
-
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.stereotype.Component;
+
+import java.math.BigDecimal;
 
 @Getter
 @Entity
+@Component
 @Table(name = "warehouse-item", schema = "public")
-
 public class WarehouseItem {
+
 
     @Setter
     @Id
@@ -26,17 +29,21 @@ public class WarehouseItem {
 
     @Column(name = "warehouse_id", nullable = false)
     @Setter
-    private Integer warehouse_id;
-    // Constructors, getters, and setters
+    private Long warehouse_id;
 
+    @Column(name = "price", nullable = false)
+    @Setter
+    private BigDecimal price;
+    // Constructors, getters, and setters
     // Constructors
     public WarehouseItem() {
     }
 
-    public WarehouseItem(String itemName, Integer quantity, Integer warehouse_id) {
+    public WarehouseItem(String itemName, Integer quantity, Long warehouse_id, BigDecimal price) {
         this.itemName = itemName;
         this.quantity = quantity;
         this.warehouse_id = warehouse_id;
+        this.price = price;
     }
 
     @Override
@@ -46,6 +53,7 @@ public class WarehouseItem {
                 ", itemName='" + itemName + '\'' +
                 ", quantity=" + quantity +
                 ", warehouseID=" + warehouse_id +
+                ", price=" + price +
                 '}';
     }
 }

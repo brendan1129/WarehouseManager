@@ -1,7 +1,9 @@
 package com.skillstorm.warehousemanager.services;
 
+import com.skillstorm.warehousemanager.models.Warehouse;
 import com.skillstorm.warehousemanager.models.WarehouseItem;
 import com.skillstorm.warehousemanager.repositories.WarehouseItemRepository;
+import com.skillstorm.warehousemanager.repositories.WarehouseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +14,11 @@ import java.util.Optional;
 public class WarehouseItemService {
 
     private final WarehouseItemRepository warehouseItemRepository;
+
+    @Autowired
+    private WarehouseRepository warehouseRepository;
+
+    static int currentTotal = 0;
 
     @Autowired
     public WarehouseItemService(WarehouseItemRepository warehouseItemRepository) {
@@ -26,8 +33,20 @@ public class WarehouseItemService {
         return warehouseItemRepository.findById(itemId);
     }
 
-    public WarehouseItem addItem(WarehouseItem item) {
-        return warehouseItemRepository.save(item);
+    public WarehouseItem addItem(WarehouseItem item) throws IllegalArgumentException {
+        Optional<Warehouse> warehouse = warehouseRepository.findById(item.getWarehouse_id());
+        if(warehouse.isPresent()) {
+            if(item.getQuantity() + currentTotal > warehouse.get().getMaxCapacity()) {
+                throw new IllegalArgumentException("Requested add: " + item.getQuantity() + " + " + currentTotal + " Cannot Exceed Max Capacity: " + warehouse.get().getMaxCapacity() + " of Warehouse " + warehouse.get().getWarehouseName());
+            }
+            else {
+                currentTotal = currentTotal + item.getQuantity();
+                return warehouseItemRepository.save(item);
+            }
+        }
+        else {
+            throw new IllegalArgumentException("Warehouse Not Found");
+        }
     }
 
     public void updateItem(Long itemId, WarehouseItem newItem) {
@@ -37,6 +56,8 @@ public class WarehouseItemService {
     }
 
     public void deleteItem(Long itemId) {
+        WarehouseItem item = warehouseItemRepository.getReferenceById(itemId);
+        currentTotal -= item.getQuantity();
         warehouseItemRepository.deleteById(itemId);
     }
 
