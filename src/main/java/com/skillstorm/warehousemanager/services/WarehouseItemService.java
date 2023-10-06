@@ -68,4 +68,23 @@ public class WarehouseItemService {
     public List<WarehouseItem> findItemsByWarehouseID(Long warehouse_id) {
         return warehouseItemRepository.findWarehouseItemBy(warehouse_id);
     }
+    public void reduceItemQuantity(Long itemId, int reductionAmount) {
+        WarehouseItem item = warehouseItemRepository.findById(itemId)
+                .orElseThrow(() -> new IllegalArgumentException("Item not found"));
+
+        int currentQuantity = item.getQuantity();
+        int newQuantity = currentQuantity - reductionAmount;
+
+        if (newQuantity < 0) {
+            throw new IllegalArgumentException("Quantity cannot go below 0");
+        } else if (newQuantity == 0) {
+            // Delete the item when quantity reaches 0
+            warehouseItemRepository.delete(item);
+        } else {
+            // Update the item's quantity
+            currentTotal -= newQuantity;
+            item.setQuantity(newQuantity);
+            warehouseItemRepository.save(item);
+        }
+    }
 }

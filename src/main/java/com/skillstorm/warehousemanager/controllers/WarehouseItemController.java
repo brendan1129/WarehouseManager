@@ -66,4 +66,16 @@ public class WarehouseItemController {
         List<WarehouseItem> items = warehouseItemService.findItemsByWarehouseID(warehouse_id);
         return new ResponseEntity<>(items, HttpStatus.OK);
     }
+    @PostMapping("/{itemId}/reduce-quantity/{reductionAmount}")
+    public ResponseEntity<String> reduceItemQuantity(
+            @PathVariable Long itemId,
+            @PathVariable int reductionAmount) {
+        System.out.println("What the fuck is even happening");
+        try {
+            warehouseItemService.reduceItemQuantity(itemId, reductionAmount);
+            return ResponseEntity.ok("Quantity reduced successfully");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }

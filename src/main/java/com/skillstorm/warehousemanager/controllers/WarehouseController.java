@@ -65,4 +65,5 @@ public class WarehouseController {
         warehouseService.deleteWarehouse(warehouseId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
 }
